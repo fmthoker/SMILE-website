@@ -128,71 +128,106 @@
       <div class="column is-four-fifths">
         <h2 class="title is-3">Method Overview</h2>
         <div class="content has-text-justified">
-          <p>We propose tubeletcontrastive learning to reduce the spatial focus of video representations and instead learn similarities between spatiotemporal tubelet dynamics. We encourage our learned representation to be motion-focused by simulating a variety of tubelet motions. To further improve the data efficiency and generalizability of our method, we add complexity and variety to the motions through tubelet transformations. Figures below  show an overview of our proposed approach and tubelet motion and transformations.<p>
-          <img src="./assets/media/method_overview.png " alt="method" style="width:100%; padding-top:1%;"/>  
-          <img src="./assets/media/motion-trans.png " alt="motion-trans" style="width:100%; padding-top:2%;"/>  
+          <p>
+            Our method introduces high-level <strong>spatial</strong> and <strong>motion semantics</strong> into masked video modeling to enhance video representation learning. We achieve this through two core innovations:
+          </p>
+          <ul>
+            <li>
+              <strong>Motion Augmentation:</strong>
+              We overlay moving synthetic objects onto original videos along randomly generated smooth trajectories. These motions introduce dynamic visual patterns that reduce temporal redundancy and encourage the model to capture meaningful motion cues.
+            </li>
+            <li>
+              <strong>Semantic Reconstruction with CLIP:</strong>
+              Instead of reconstructing low-level pixels, we guide the model to reconstruct <em>CLIP features</em>, which encode high-level semantic information such as scenes and object interactions. This leads to more transferable and meaningful video representations.
+            </li>
+          </ul>
+          <p>
+            During training, we apply a hybrid masking strategy:
+            <ul>
+              <li><strong>Tube masking</strong> for original video regions (as in VideoMAE).</li>
+              <li><strong>Trajectory-aware masking</strong> for synthetic objects, forcing the model to infer motion dynamics.</li>
+            </ul>
+          </p>
+          <p>
+            Our architecture follows a student-teacher design: the student is a transformer-based encoder-decoder trained to reconstruct masked features, while the teacher is a frozen CLIP encoder providing high-level supervision.
+          </p>
+          <p>
+            By combining synthetic motion, semantic supervision, and targeted masking, our method learns temporally-aware and semantically-rich video representations. Notably, it achieves strong downstream performance even without access to natural video data.
+          </p>
+          <img src="./assets/media/main.png " alt="method" style="width:100%; padding-top:1%;"/>  
+          <div style="font-size:0;">
+            <img src="./assets/media/motion.png" alt="motion" style="width:50%; display:inline-block; padding-top:2%;" />
+            <img src="./assets/media/sim_main.png" alt="sim_main" style="width:50%; display:inline-block; padding-top:2%;" />
+          </div>
         </div>
       </div>
     </div>
-    <!--/ Abstract. -->
 
-    <!-- Paper video. -->
-    <!-- <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Video</h2>
-        <div class="publication-video">
-          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
-                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div> -->
-    <!--/ Paper video. -->
-
-    <!-- Highlights. -->
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
         <h2 class="title is-3">Highlights</h2>
         <div class="content has-text-justified">
           <p>
-            We summarize the key observations from our experiments below.
+            Our method achieves state-of-the-art performance across multiple video understanding benchmarks, demonstrating strong generalization in both semantic and motion-centric tasks.
           </p>
 
         <div>
-          <h3 class="title is-4">I. Main Ablation </h3>
+          <h3 class="title is-4">I. SOTA on SSv2 and K400 </h3>
           <div class="observations domain">
-            <p> We  demonstrate the impact of each component in  our tubelet-contrastive learning.  It is clear that the motion within tubelets is critical to our model’s success as contrasting static tubelets obtained from our tubelet generation  actually decreases the performance from the temporal contrast baseline. When
-tubelet motion is added, performance improves considerably, Finally, adding more motion types via tubelet transformations further improves the video representation quality. This highlights the importance of including a variety of motions beyond what is present in the pretraining data to learn generalizable video representations.
+            <p>
+            We achieve top results on both <strong>Something-Something V2</strong> (SSv2) and <strong>Kinetics-400</strong> (K400) benchmarks using full finetuning with a ViT-B backbone. Our method outperforms prior self-supervised video models, including MGMAE, MME, and MGM, with significant gains—up to <strong>2.5%</strong> on SSv2 and <strong>2.3%</strong> on K400.
             </p>
-          <img src="./assets/media/ablation.png " alt="ablation" style="width:100%; "/>
+            <p>
+            Even with fewer training epochs, our model surpasses existing methods trained for longer, thanks to <em>CLIP-based semantic supervision</em> that offers a more efficient and meaningful learning signal than traditional pixel-level reconstruction.
+            </p>
+          <div style="font-size:0;">
+            <img src="./assets/media/K400.png " alt="ablation" style="width:50%; "/>
+            <img src="./assets/media/SSV2.png " alt="ablation" style="width:50%; "/>
+          </div>
           </div>
         </div>
 
         <div>
-          <h3 class="title is-4">II. Motion Focus</h3>
+          <h3 class="title is-4">II. Downstream Generalization</h3>
           <div class="observations samples">
-            <p> To understand what our model learns, we visualize the class agnostic activation maps  of various downsteram datasets without any finetuning for the temporal contrastive baseline and our approach. Without previously seeing any of the data, we observe that our approach attends regions with motion while the temporal contrastive baseline mostly attends to the background.
+            <p>
+            We evaluate our method on the <strong><a href="https://bpiyush.github.io/SEVERE-website/"> SEVERE benchmark </a></strong>, which tests four key generalization factors: <em>domain shift</em>, <em>sample efficiency</em>, <em>action granularity</em>, and <em>task shift</em>. Our model consistently outperforms existing approaches on all aspects.
+            </p>
+            <ul>
+              <li><strong>Domain Shift:</strong> Best performance on SSv2 and Gym99 despite pretraining on K400.</li>
+              <li><strong>Low-shot Learning:</strong> 5% higher accuracy on GYM with just 1,000 samples, outperforming MME.</li>
+              <li><strong>Fine-grained Actions:</strong> Top results on FX-S1 and UB-S1, surpassing motion-focused models like MGMAE and MGM.</li>
+              <li><strong>Task Adaptability:</strong> 9% improvement on multi-label Charades recognition and strong results on repetition counting.</li>
+            </ul>
+            <p>
+            Overall, our full model with synthetic motion achieves a <strong>3.0% average gain</strong> over strong baselines, demonstrating robust generalization across diverse video understanding scenarios.
             </p>
           <img src="./assets/media/grad-cam.png " alt="grad-cam" style="width:100%; "/>
           </div>
         </div>
 
         <div>
-          <h3 class="title is-4">III. Video-Data Efficiency</h3>
+          <h3 class="title is-4">III. Better CLIP Adaptation</h3>
           <div class="observations actions">
-            <p> To demonstrate our method’s data efficiency, we pretrain using subsets of the Kinetics-400 training data. In
-particular, we sample 5%, 10%, 25%, 33% and 50% of the Kinetics-400 training set with three different seeds and use
-this to pretrain our model and the temporal contrastive baseline. We compare the effectiveness of these representations after finetuning on 5 different donwstream setups. On all downstream setups, our method maintains similar performance when reducing the pretraining data to just 25%, while the temporal contrastive baseline performance decreases significantly.
+            <p>
+            Compared to CLIP-based methods like <strong>ViCLIP</strong> and <strong>UMT</strong>, our model achieves higher accuracy on motion-sensitive datasets, especially under <em>linear probing</em>. This suggests stronger video representations, learned with less data and without relying on video-text alignment.
             </p>
-          <img src="./assets/media/data-eff.png " alt="data-eff" style="width:100%; "/>
+          <img src="./assets/media/CLIP.png " alt="data-eff" style="width:100%; "/>
           </div>
         </div>
 
         <div>
-          <h3 class="title is-4">IV.SEVERE Generalization Benchmark</h3>
+          <h3 class="title is-4">IV. Learning Without Natural Videos</h3>
           <div class="observations tasks">
-            <p> We compare to prior works on the challenging <a href="https://bpiyush.github.io/SEVERE-website/">SEVERE benchmark </a>, which evaluates video representations for generalizability in domain shift, sample efficiency, action granularity, and task shift. We compare the mean and the average rank across all generalizability factors. Our method has the best mean performance (66.5) and achieves the best average rank (4.1). When pretraining with the 3x smaller Mini-Kinetics our approach still achieves impressive results. We conclude our method improves the generalizability of video self-supervised representations across these four downstream factors while being data-efficient.
+            <p>
+            We show that our method can learn strong video representations even without any natural video data. By overlaying synthetic object motions onto static backgrounds—including <em>black</em> and <em>noise images</em>—our model achieves <strong>22.2%</strong> on K400<sub>m</sub> and <strong>23.0%</strong> on SSv2<sub>m</sub>, significantly outperforming random initialization.
             </p>
-          <img src="./assets/media/severe-expts.png " alt="severe" style="width:100%; "/>
+            <p>
+            This highlights a new learning paradigm: masked video modeling driven purely by motion, without relying on real-world videos.
+            </p>
+            <div style="text-align: center;">
+              <img src="./assets/media/unnatural.png " alt="severe" style="width:60%; "/>
+            </div> 
           </div>
         </div>
 
