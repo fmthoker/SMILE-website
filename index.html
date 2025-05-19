@@ -43,7 +43,7 @@
 </head>
 <body>
 
-<nav class="navbar" role="navigation" aria-label="main navigation">
+<!-- <nav class="navbar" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
       <span aria-hidden="true"></span>
@@ -72,7 +72,7 @@
     </div>
 
   </div>
-</nav>
+</nav> -->
 
 
 <section class="hero">
@@ -80,25 +80,27 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Tubelet-Contrastive Self-Supervision for Video-Efficient Generalization</h1>
+          <h1 class="title is-1 publication-title">SMILE: Infusing Spatial and Motion Semantics in Masked Video Learning</h1>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
               <a href="https://fmthoker.github.io/">Fida Mohammad Thoker</a><sup>1</sup>,</span>
-              <span class="author-block">
-                <a href="https://hazeldoughty.github.io/">Hazel Doughty</a><sup>1</sup>,</span>  
             <span class="author-block">
-              <a href="https://www.ceessnoek.info/">Cees Snoek</a><sup>1</sup></span>
+              <a href="https://orcid.org/0009-0006-4372-406X">Letian Jiang</a><sup>1</sup>,</span>  
+            <span class="author-block">
+              <a href="https://zhao-chen.com/">Chen Zhao</a><sup>1</sup></span>
+            <span class="author-block">
+              <a href="https://cemse.kaust.edu.sa/profiles/bernard-ghanem">Bernard Ghanem</a><sup>1</sup>,</span>
           </div>
 
           <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>1</sup>University of Amsterdam</span>
+            <span class="author-block"><sup>1</sup>King Abdullah University of Science and Technology (KAUST)</span>
           </div>
 
           <div class="column has-text-centered">
             <div class="publication-links">
               <!-- PDF Link. -->
               <span class="link-block">
-                <a href="https://arxiv.org/abs/2303.11003"
+                <a href="https://arxiv.org/abs/2504.00527"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="ai ai-arxiv"></i>
@@ -107,7 +109,7 @@
                 </a>
               </span>
               <span class="link-block">
-                <a href="https://openaccess.thecvf.com/content/ICCV2023/papers/Thoker_Tubelet-Contrastive_Self-Supervision_for_Video-Efficient_Generalization_ICCV_2023_paper.pdf"
+                <a href="https://arxiv.org/pdf/2504.00527"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fas fa-file-pdf"></i>
@@ -127,7 +129,7 @@
               </span>
               <!-- Code Link. -->
               <span class="link-block">
-                <a href="https://github.com/fmthoker/tubelet-contrast"
+                <a href="https://github.com/fmthoker/SMILE"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fab fa-github"></i>
@@ -156,9 +158,12 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <img src="./assets/media/teaser.png " alt="teaser" style="width:100%;  padding-top:1%;"/>
+      <img src="./assets/media/radar.png" alt="teaser" style="width:50%; padding-top:1%; display:block; margin:auto;" />
+
       <h2 class="subtitle has-text-justified">
-We propose a self-supervised method for learning motion-focused video representations. Existing approaches minimize distances between temporally augmented videos, which maintain high spatial similarity. We instead propose to learn similarities between videos with identical local motion dynamics but an otherwise different appearance. We do so by adding synthetic motion trajectories to videos which we refer to as tubelets. Tubelet-Contrastive positive pairs (right)  only share the spatiotemporal motion dynamics inside the simulated tubelets, while temporal contrastive pairs (left)  suffer from a high spatial bias. Contrasting tubelets results in a data-efficient and generalizable video representation.
+      We introduce <b>SMILE</b>, a self-supervised video representation learning method that focuses on semantic abstraction and motion dynamics. Existing masked video modeling approaches, such as VideoMAE, primarily reconstruct low-level pixels from natural videos, which often contain significant temporal redundancy and limited motion variation.
+      <b>SMILE</b> addresses these limitations by combining spatial semantics from pretrained image-language models like CLIP and synthetic motion augmentation to inject dynamic content into the training process. Instead of relying on raw pixel reconstruction, we guide the model to learn high-level visual concepts and motion-aware features.
+      Notably, <b>SMILE</b> enables effective video representation learning even without natural videos, thanks to the use of synthetic motion overlays and trajectory-based masking. Through experiments across 7 datasets and diverse downstream tasks, <b>SMILE</b> consistently outperforms state-of-the-art self-supervised methods, demonstrating superior generalization and motion sensitivity.
       </h2>
     </div>
   </div>
