@@ -1,6 +1,6 @@
 # Tubelet Contrastive Learning Website
 
-This repository contains source code for the [project website](https://fmthoker.github.io/tubelet-contrastive-learning/) for our ICCV 2023 paper.
+This repository contains source code for the [project website](https://fmthoker.github.io/SMILE-website/) for our CVPR 2025 paper.
 
 
 # Website License
