@@ -206,7 +206,27 @@
         </div>
 
         <div>
-          <h3 class="title is-4">IV. Learning Without Natural Videos</h3>
+          <h3 class="title is-4">IV. Generalization to More Temporal Tasks</h3>
+          <div class="observations tasks">
+            <p>
+            We evaluate our model on two temporally-aware tasks: <strong>Unsupervised Video Object Segmentation (Un-VOS)</strong> and <strong>Temporal Action Localization (TAL)</strong>. These tasks test the model’s ability to model motion boundaries and object consistency over time.
+            </p>
+
+            <p>
+            On <em>Un-VOS</em> (DAVIS, YTVOS), our method outperforms prior works like MGMAE, MGM, and even the clustering-based SIGMA—showing up to <strong>7%</strong> improvement in mIoU. On <em>TAL</em> (THUMOS-14, ActivityNet-v1.3), we surpass VideoMAE by <strong>7%</strong> and MGMAE by <strong>9%</strong>, and even approach the performance of fully-supervised models trained with labeled Kinetics-400.
+            </p>
+
+            <p>
+            These results highlight our strong temporal modeling capabilities and broad applicability across diverse video understanding tasks.
+            </p>
+            <div style="text-align: center;">
+              <img src="./assets/media/temporal.png " alt="severe" style="width:100%; "/>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="title is-4">V. Learning Without Natural Videos</h3>
           <div class="observations tasks">
             <p>
             We show that our method can learn strong video representations even without any natural video data. By overlaying synthetic object motions onto static backgrounds—including <em>black</em> and <em>noise images</em>—our model achieves <strong>22.2%</strong> on K400<sub>m</sub> and <strong>23.0%</strong> on SSv2<sub>m</sub>, significantly outperforming random initialization.
